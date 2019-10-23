@@ -6,76 +6,38 @@
  * @flow
  */
 
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  Platform,
-  Button,
-} from 'react-native';
+import React from 'react';
 import ChatViewScreen from './src/screens/ChatViewScreen';
-import Conversations from './src/screens/Conversations';
+import ConversationsScreen from './src/screens/Conversations';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const AppNavigator = createStackNavigator(
+  {
+    conversations: ConversationsScreen,
+    chatView: ChatViewScreen,
+  },
+  {
+    initialRouteName: 'conversations',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#006655',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  },
+);
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-const CONVERSATIONS = 'CONVERSATIONS';
-const App: () => React$Node = () => {
-  const [currentScreen, setCurrentScreen] = useState('CONVERSATIONS');
-  const switchScreen = () => {
-    if (currentScreen === CONVERSATIONS) {
-      setCurrentScreen('CHAT_VIEW');
-    } else {
-      setCurrentScreen(CONVERSATIONS);
-    }
-  };
-  return (
-    <>
-      <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          {currentScreen === 'CONVERSATIONS' ? (
-            <Conversations />
-          ) : (
-            <ChatViewScreen />
-          )}
-          <Button title={'Switch screen'} onPress={switchScreen} />
-        </View>
-      </SafeAreaView>
-    </>
-  );
-};
+// YellowBox.ignoreWarnings([
+//   'Warning: DatePickerAndroid',
+//   'RCTRootView cancelTouches',
+// ]);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
-  welcome: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    width: '80%',
-  },
-  instructions: {
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 10,
-    fontSize: 15,
-  },
-  workshopInstructions: {
-    alignItems: 'flex-start',
-  },
-});
+const AppContainer = createAppContainer(AppNavigator);
+
+const App: () => React$Node = () => <AppContainer />;
 
 export default App;

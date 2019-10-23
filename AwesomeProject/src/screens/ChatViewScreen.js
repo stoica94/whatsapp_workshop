@@ -1,8 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ImageBackground, FlatList, StyleSheet} from 'react-native';
-import {getMessagesById} from '../services/api';
+import {
+  Text,
+  View,
+  ImageBackground,
+  FlatList,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {getMessagesById, postMessage} from '../services/api';
+import Compose from '../components/Compose';
 
 const ChatViewScreen = () => {
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
+
   const getMessageItem = item => {
     return (
       <View
@@ -15,28 +26,40 @@ const ChatViewScreen = () => {
     );
   };
 
-  const [messages, setMessages] = useState(() => {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
     const fetchMessages = async () => {
       const result = await getMessagesById();
       setMessages(result);
     };
     fetchMessages();
-  }, []);
+  }, [messages]);
 
-  useEffect(() => {}, []);
+  const submit = message => postMessage(message);
 
   return (
     <ImageBackground
-      source={require('../assets/chat-background.jpg')}
-      style={styles.container}>
+      style={styles.container}
+      source={require('../assets/chat-background.jpg')}>
       <FlatList
         style={styles.container}
         data={messages}
         renderItem={({item}) => getMessageItem(item)}
         keyExtractor={(item, index) => `message-${index}`}
       />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={keyboardVerticalOffset}>
+        <Compose submit={submit} style={styles.compose} />
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
+};
+
+ChatViewScreen.navigationOptions = ({navigation}) => {
+  return {
+    title: navigation.state.params.title,
+  };
 };
 
 const styles = StyleSheet.create({
@@ -58,6 +81,9 @@ const styles = StyleSheet.create({
   incomingMessage: {
     alignSelf: 'flex-start',
     backgroundColor: '#FFFFFF',
+  },
+  compose: {
+    marginBottom: 10,
   },
 });
 
