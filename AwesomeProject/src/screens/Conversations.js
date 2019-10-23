@@ -1,4 +1,4 @@
-import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {getChats} from '../services/api';
 import ChatItem from '../components/ChatItem';
@@ -11,15 +11,7 @@ const ChatView = ({navigation}) => {
 
   const renderChatItem = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('chatView', {
-            itemId: item.id,
-            title: item.title,
-          })
-        }>
-        <ChatItem {...item} date={'Yesterday'} />
-      </TouchableOpacity>
+      <ChatItem {...item} navigate={navigation.navigate} date={'Yesterday'} />
     );
   };
 

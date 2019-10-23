@@ -10,20 +10,13 @@ import {
 } from 'react-native';
 import {getMessagesById, postMessage} from '../services/api';
 import Compose from '../components/Compose';
+import Message from '../components/Message';
 
 const ChatViewScreen = () => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
 
-  const getMessageItem = item => {
-    return (
-      <View
-        style={[
-          styles.message,
-          item.incoming ? styles.incomingMessage : styles.outgoingMessage,
-        ]}>
-        <Text>{item.message}</Text>
-      </View>
-    );
+  const renderMessageItem = item => {
+    return <Message {...item} />;
   };
 
   const [messages, setMessages] = useState([]);
@@ -44,7 +37,7 @@ const ChatViewScreen = () => {
       <FlatList
         style={styles.container}
         data={messages}
-        renderItem={({item}) => getMessageItem(item)}
+        renderItem={({item}) => renderMessageItem(item)}
         keyExtractor={(item, index) => `message-${index}`}
       />
       <KeyboardAvoidingView
@@ -66,21 +59,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-  },
-  message: {
-    width: '70%',
-    margin: 10,
-    padding: 10,
-    borderColor: '#979797',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    alignSelf: 'flex-end',
-    backgroundColor: '#E1FFC7',
-    borderRadius: 10,
-  },
-  incomingMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#FFFFFF',
   },
   compose: {
     marginBottom: 10,

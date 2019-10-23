@@ -1,21 +1,50 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ChatItem = ({title, description, date}) => (
-  <View style={styles.itemContainer}>
-    <Avatar style={styles.avatar} />
-    <View style={styles.titleContainer}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-    </View>
-    <View style={styles.arrowContainer}>
-      <Text style={styles.description}>{date}</Text>
-      <Icon name="chevron-right" color={'gray'} style={styles.icon} />
-    </View>
-  </View>
-);
+const ChatItem = ({navigate, title, description, date, id}) => {
+  const animatedVal = new Animated.Value(0);
+  Animated.timing(animatedVal, {
+    toValue: 1,
+    duration: 300,
+    useNativeDriver: true,
+  }).start();
+  return (
+    <Animated.View
+      style={{
+        opacity: animatedVal,
+        transform: [
+          {
+            translateX: animatedVal.interpolate({
+              inputRange: [0, 1],
+              outputRange: [-100, 0],
+            }),
+          },
+        ],
+      }}>
+      <TouchableOpacity
+        onPress={() =>
+          navigate('chatView', {
+            itemId: id,
+            title: title,
+          })
+        }>
+        <View style={styles.itemContainer}>
+          <Avatar style={styles.avatar} />
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
+          </View>
+          <View style={styles.arrowContainer}>
+            <Text style={styles.description}>{date}</Text>
+            <Icon name="chevron-right" color={'gray'} style={styles.icon} />
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
 
 const styles = StyleSheet.create({
   itemContainer: {
