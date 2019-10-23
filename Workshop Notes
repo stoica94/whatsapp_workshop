@@ -9,3 +9,10 @@
 * react-native-vector-icons cool collection of icons
 
 * use the same animated value for more animations
+
+* use reanimated for best performance
+
+Resources for further read: 
+learn.hasura.io
+Vladimir Novick Youtube channel
+infinitered/ignite - react native cli with better options
