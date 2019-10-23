@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,7 +14,10 @@ import {
   Text,
   StatusBar,
   Platform,
+  Button,
 } from 'react-native';
+import ChatViewScreen from './src/screens/ChatViewScreen';
+import Conversations from './src/screens/Conversations';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -24,41 +27,27 @@ const instructions = Platform.select({
 });
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+const CONVERSATIONS = 'CONVERSATIONS';
 const App: () => React$Node = () => {
+  const [currentScreen, setCurrentScreen] = useState('CONVERSATIONS');
+  const switchScreen = () => {
+    if (currentScreen === CONVERSATIONS) {
+      setCurrentScreen('CHAT_VIEW');
+    } else {
+      setCurrentScreen(CONVERSATIONS);
+    }
+  };
   return (
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native Workshop!</Text>
-          <Text style={styles.instructions}> To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
-          <Text style={styles.welcome}>Assignment</Text>
-          <View style={styles.workshopInstructions}>
-            <Text style={styles.instructions}>1. Create src folder</Text>
-            <Text style={styles.instructions}>
-              2. Create src/screens/ChatsScreen.js component
-            </Text>
-            <Text style={styles.instructions}>
-              3. Create src/screens/ChatViewScreen.js component
-            </Text>
-            <Text style={styles.instructions}>
-              4. Create src/components/Compose.js component
-            </Text>
-            <Text style={styles.instructions}>
-              5. Create src/components/Message.js component
-            </Text>
-            <Text style={styles.instructions}>
-              6. Create src/components/ChatItem.js component
-            </Text>
-            <Text style={styles.instructions}>
-              7. Create src/components/Avatar.js component
-            </Text>
-            <Text style={styles.instructions}>
-              8. Switch different screens in App.js by changing state
-            </Text>
-          </View>
+          {currentScreen === 'CONVERSATIONS' ? (
+            <Conversations />
+          ) : (
+            <ChatViewScreen />
+          )}
+          <Button title={'Switch screen'} onPress={switchScreen} />
         </View>
       </SafeAreaView>
     </>
@@ -68,9 +57,8 @@ const App: () => React$Node = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#151019',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   welcome: {
     color: 'white',

@@ -1,0 +1,9 @@
+* RCTVIEW is a native Component 
+
+* A lot of nested components become a performance bottle neck
+
+* Style simple object creates the style object every time. With Stylesheet it caches it
+
+* FlexBox in React Native is column by default
+
+* react-native-vector-icons cool collection of icons
