@@ -1,13 +1,25 @@
 # Whatsapp Workshop
 
-# Assignment
+## If cloning from step5 branch
 
-- create `src` folder
-- create `src/screens/Conversations.js` component
-- create `src/screens/ChatViewScreen.js` component
-- create `src/components/Compose.js` component
-- create `src/components/Message.js` component
-- create `src/components/ChatItem.js` component
-- create `src/components/Avatar.js` component
-- Switch different screens in `App.js` by changing state
+- npm install
+- react-native link
+
+## Bonus content
+
+- Create Login/Registration screens
+- Create bad words filtering business logic (host serverless function on glitch or on Netlify)
+- Integrate state management of your choice in the app
+
+
+# Additional resources
+
+- [learn.hasura.io](learn.hasura.io) - Bunch of 2h tutorials on GraphQL
+- [My Youtube channel ](https://youtube.com/c/VladimirNovickDev) - Bunch of stuff in Web/Mobile/VR/AR/IoT fields. Also has 10h course on GraphQL
+- [Ignite CLI](https://github.com/infinitered/ignite) - Bootstrapping your React Native apps with best practices in mind
+= [3factor.app architecture](https://3factor.app/)
+
+
+
+
 

@@ -1,19 +1,17 @@
-import {Text, StyleSheet} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-const Message = ({message, incoming}) => {
-  const animation = incoming ? 'fadeInLeft' : 'fadeInRight';
+const USER_ID = '124b15ed-50f4-42d3-ac74-0cb1293f4d7b';
 
+const Message = ({item}) => {
+  const incoming = item.userId !== USER_ID;
   return (
     <Animatable.View
-      animation={animation}
-      duration={300}
-      style={[
-        styles.message,
-        incoming ? styles.incomingMessage : styles.outgoingMessage,
-      ]}>
-      <Text>{message}</Text>
+      duration={200}
+      animation={incoming ? 'slideInLeft' : 'slideInRight'}
+      style={[styles.message, incoming && styles.incomingMessage]}>
+      <Text>{item.message}</Text>
     </Animatable.View>
   );
 };

@@ -1,45 +1,49 @@
-import {View, Button, TextInput, StyleSheet, Keyboard} from 'react-native';
 import React, {useState} from 'react';
+import {View, StyleSheet, Keyboard, Button, TextInput} from 'react-native';
 
-const Compose = ({submit, style}) => {
-  const [message, setMessage] = useState('');
+export const Compose = ({submit}) => {
+  const [text, setText] = useState('');
   const submitMessage = () => {
-    setMessage('');
-    submit(message);
+    setText('');
+    submit(text);
     Keyboard.dismiss();
   };
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.compose}>
       <TextInput
-        style={styles.textInput}
-        value={message}
-        onChangeText={txt => setMessage(txt)}
+        style={styles.composeText}
+        value={text}
+        onChangeText={txt => setText(txt)}
         onSubmitEditing={submitMessage}
         editable={true}
         maxLength={40}
       />
-      <Button title={'Send'} onPress={submitMessage} />
+      <Button onPress={submitMessage} title="Send" />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: 20,
-    paddingBottom: 10,
-  },
-  button: {},
-  textInput: {
-    width: '90%',
+  composeText: {
+    width: '80%',
+    paddingHorizontal: 10,
+    height: 40,
     backgroundColor: 'white',
     borderColor: '#979797',
     borderStyle: 'solid',
     borderWidth: 1,
+<<<<<<< HEAD
     height: 50,
     paddingHorizontal: 10,
     borderRadius: 8,
+=======
+  },
+  compose: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 10,
+>>>>>>> 22798f560043cb19fcfc05aaf000ae8141de11be
   },
 });
 

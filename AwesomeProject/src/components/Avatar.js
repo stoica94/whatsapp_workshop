@@ -1,27 +1,21 @@
-import {View, Image, StyleSheet} from 'react-native';
 import React from 'react';
+import {Image, View, StyleSheet} from 'react-native';
 
-const Avatar = ({style}) => (
-  <View style={style}>
-    <View style={styles.avatarContainer}>
-      <Image
-        source={require('../assets/dummy-avatar.png')}
-        style={styles.image}
-        resizeMode={'contain'}
-      />
-    </View>
+export const Avatar = ({src}) => (
+  <View style={styles.avatarContainer}>
+    <Image resizeMethod="scale" style={styles.avatar} source={src} />
   </View>
 );
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    // flex: 1,
-    backgroundColor: 'gray',
-    borderRadius: 200,
-    width: 50,
-    height: 50,
+    justifyContent: 'center',
+    flex: 2,
   },
-  image: {width: 50, height: 50, borderRadius: 200},
+  avatar: {
+    resizeMode: 'stretch',
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+  },
 });
-
-export default Avatar;

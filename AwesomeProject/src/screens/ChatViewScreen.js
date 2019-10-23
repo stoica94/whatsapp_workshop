@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -9,10 +9,8 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
+import {Compose, Message} from '../components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getMessagesById, postMessage} from '../services/api';
-import Compose from '../components/Compose';
-import Message from '../components/Message';
 import {useSubscription, useMutation} from '@apollo/react-hooks';
 import {gql} from 'apollo-boost';
 
@@ -82,28 +80,19 @@ const ChatViewScreen = ({navigation}) => {
       />
     );
   };
+
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
-
-  const [messages, setMessages] = useState([]);
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const result = await getMessagesById();
-      setMessages(result);
-    };
-    fetchMessages();
-  }, [messages]);
-
-  const submit = message => postMessage(message);
 
   return (
     <ImageBackground
-      style={styles.container}
-      source={require('../assets/chat-background.jpg')}>
-      {getChatsView()}
+      source={require('../assets/imgs/background.png')}
+      style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={keyboardVerticalOffset}>
-        <Compose submit={postMessage} style={styles.compose} />
+        keyboardVerticalOffset={keyboardVerticalOffset}
+        style={styles.container}>
+        {getChatsView()}
+        <Compose submit={postMessage} />
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -127,9 +116,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  compose: {
-    marginBottom: 10,
+  message: {
+    width: '70%',
+    margin: 10,
+    padding: 10,
+    borderColor: '#979797',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    alignSelf: 'flex-end',
+    backgroundColor: '#E1FFC7',
+    borderRadius: 10,
+  },
+  incomingMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#FFFFFF',
   },
 });
-
-export default ChatViewScreen;

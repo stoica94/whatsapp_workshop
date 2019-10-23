@@ -1,22 +1,37 @@
-import {View, Text, StyleSheet, Animated, TouchableOpacity} from 'react-native';
-import React from 'react';
-import Avatar from './Avatar';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+import {Avatar} from './Avatar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ChatItem = ({navigate, title, description, date, id}) => {
-  const animatedVal = new Animated.Value(0);
-  Animated.timing(animatedVal, {
-    toValue: 1,
-    duration: 300,
-    useNativeDriver: true,
-  }).start();
+export const ChatItem = ({
+  navigate,
+  item: {
+    id,
+    user: {avatar, id: userId},
+    title,
+    description,
+    date,
+  },
+}) => {
+  const imageUrl = {uri: avatar};
+
+  const animatedValue = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+
   return (
     <Animated.View
       style={{
-        opacity: animatedVal,
+        opacity: animatedValue,
         transform: [
           {
-            translateX: animatedVal.interpolate({
+            translateX: animatedValue.interpolate({
               inputRange: [0, 1],
               outputRange: [-100, 0],
             }),
@@ -24,22 +39,16 @@ const ChatItem = ({navigate, title, description, date, id}) => {
         ],
       }}>
       <TouchableOpacity
-        onPress={() =>
-          navigate('chatView', {
-            itemId: id,
-            title: title,
-          })
-        }>
-        <View style={styles.itemContainer}>
-          <Avatar style={styles.avatar} />
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.description}>{description}</Text>
-          </View>
-          <View style={styles.arrowContainer}>
-            <Text style={styles.description}>{date}</Text>
-            <Icon name="chevron-right" color={'gray'} style={styles.icon} />
-          </View>
+        style={styles.chatItem}
+        onPress={() => navigate('chatView', {id, title, userId})}>
+        <Avatar src={imageUrl} />
+        <View style={styles.content}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.label}>{description}</Text>
+        </View>
+        <View style={styles.navLabel}>
+          <Text style={styles.label}>{date}</Text>
+          <Icon style={styles.arrow} name="chevron-right" size={20} />
         </View>
       </TouchableOpacity>
     </Animated.View>
@@ -47,39 +56,29 @@ const ChatItem = ({navigate, title, description, date, id}) => {
 };
 
 const styles = StyleSheet.create({
-  itemContainer: {
+  chatItem: {
     height: 50,
-    width: '100%',
-    flexDirection: 'row',
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 5,
+    alignItems: 'center',
+    marginRight: 24,
+    marginLeft: 24,
   },
-  avatar: {flex: 1},
-  arrowContainer: {
-    flex: 4,
-    alignItems: 'flex-end',
-    // alignSelf: 'flex-end',
-    paddingRight: 10,
+  content: {
+    flex: 5,
   },
-  titleContainer: {
-    paddingRight: 10,
+  navLabel: {
     flex: 2,
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
+    alignItems: 'flex-end',
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 18,
-    flex: 1,
   },
-  description: {
-    color: 'gray',
-    flex: 1,
+  label: {
+    color: 'rgba(0,0,0,.5)',
   },
-  icon: {
-    flex: 0.5,
-    fontWeight: 'bold',
+  arrow: {
+    color: 'rgba(0,0,0,.5)',
   },
 });
-export default ChatItem;
